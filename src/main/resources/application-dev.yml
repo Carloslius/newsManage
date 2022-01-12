@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://101.35.192.127:3306/newdb
+      username: root
+      password: s300056.
+  mvc:
+    static-path-pattern: /**
+  web:
+    resources:
+      static-locations: [classpath:/static/]
+  thymeleaf:
+    cache: false
+#      prefix: classpath:/templates/
+#      suffix: .html
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false

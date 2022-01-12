@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:insert="common :: #commonCSS"></div>
+    <div th:insert="common :: #commonJS"></div>
+    <title>网站概要</title>
+</head>
+<body>
+
+<!--侧边栏-->
+<div th:insert="common :: #commonSide"></div>
+
+<!-- 模态框 -->
+<div th:insert="common :: #commonState"></div>
+
+<!--主内容区域-->
+<div class="content-bg">
+    <!--头部-->
+    <div class="bg-base-more text-base-reverse content-header d-flex flex-row justify-content-between align-items-center">
+        <div class="mx-3">
+            <a class="text-decoration-none text-base-reverse" href="#"><span class="iconfont icon-wangzhanshezhi" style="font-size: 30px"></span></a>
+        </div>
+        <div class="mx-3">
+            <label class="text" for="themeChanger">切换主题</label>
+            <input class="themeChanger" id="themeChanger" type="checkbox" onclick="ChangeTheme()">
+        </div>
+    </div>
+    <!--当前路径-->
+    <div class="content-address list-inline">
+        <ul>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    管理界面
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    修改信息
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--功能模块-->
+    <div class="content row m-0">
+        <div class="col-12 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <h1>用户设置</h1>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="rounded-3 m-2 p-2"></div>
+        </div>
+        <div class="col-8 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <form action="/user/updateUserById?currentPage=1&size=4" class="my-3 mx-1 row" method="post">
+                    <input type="hidden" name="id" th:value="${session.loginUser.id}">
+                    <div class="form-floating w-75">
+                        <input type="text" class="form-control bg-base text-base-reverse" name="name" id="name">
+                        <label for="name" class="form-label text-base-reverse">更改昵称</label>
+                    </div>
+                    <button type="submit" class="btn btn-success w-25 my-2" id="submit_name">
+                        提交
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="rounded-3 m-2 p-2"></div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="rounded-3 m-2 p-2"></div>
+        </div>
+        <div class="col-8 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <form action="/user/updateUserById?currentPage=1&size=4" class="my-3 mx-1 row" method="post">
+                    <input type="hidden" name="id" th:value="${session.loginUser.id}">
+                    <div class="form-floating w-75">
+                        <input type="text" class="form-control bg-base text-base-reverse" name="acct" id="account">
+                        <label for="account" class="form-label text-base-reverse">更改账号</label>
+                    </div>
+                    <button type="submit" class="btn btn-success w-25 my-2" id="submit_account">
+                        提交
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="rounded-3 m-2 p-2"></div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="rounded-3 m-2 p-2">
+
+            </div>
+        </div>
+        <div class="col-8 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <form action="/user/updateUserById?currentPage=1&size=4" class="my-3 mx-1 row" method="post">
+                    <input type="hidden" name="id" th:value="${session.loginUser.id}">
+                    <div class="form-floating w-75">
+                        <input type="password" class="form-control bg-base text-base-reverse" name="pwd" id="psw">
+                        <label for="psw" class="form-label text-base-reverse">更改密码</label>
+                    </div>
+                    <button type="submit" class="btn btn-success w-25 my-2" id="submit_psw">
+                        提交
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="rounded-3 m-2 p-2">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

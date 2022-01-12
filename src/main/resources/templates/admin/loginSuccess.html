@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="common :: #commonCSS"></div>
+    <div th:insert="common :: #commonJS"></div>
+    <title>admin-首页</title>
+</head>
+
+<!--
+    主要根据主题色扩展Bootstrap颜色类
+-->
+<body>
+
+<!--侧边栏-->
+<div th:insert="common :: #commonSideIndex"></div>
+
+<!--主内容区域-->
+<div class="content-bg">
+    <!--头部-->
+    <div class="bg-base-more text-base-reverse content-header d-flex flex-row justify-content-between align-items-center">
+        <div class="mx-3">
+            <a class="text-decoration-none text-base-reverse" href="#"><span class="iconfont icon-wangzhanshezhi" style="font-size: 30px"></span></a>
+        </div>
+        <div class="mx-3">
+            <label class="text" for="themeChanger">切换主题</label>
+            <input class="themeChanger" id="themeChanger" type="checkbox" onclick="ChangeTheme()">
+        </div>
+    </div>
+    <!--当前路径-->
+    <div class="content-address list-inline">
+        <ul>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    管理界面
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    首页
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--功能模块-->
+    <div class="content row m-0">
+        <div class="col-12 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <h1 class="fw-bold text-base-reverse">欢迎登陆后台</h1>
+            </div>
+        </div>
+        <!-- 浏览次数 -->
+        <div class="col-4 p-0">
+            <div class="h-auto rounded-3 m-2 p-2 py-5 bg-base-more text-center text-base-reverse">
+                <div class="h3">您好 <span th:text="${session.loginUser.name}">UserName</span></div>
+            </div>
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <h6 class="">专栏数量：<span th:text="${newsProCount}"></span></h6>
+            </div>
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <h6 class="">文章数量：<span th:text="${newsCount}"></span></h6>
+            </div>
+        </div>
+        <div class="col-8 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <h6 class="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+                        <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5v-11zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5H12z"/>
+                        <path d="M2 3h10v2H2V3zm0 3h4v3H2V6zm0 4h4v1H2v-1zm0 2h4v1H2v-1zm5-6h2v1H7V6zm3 0h2v1h-2V6zM7 8h2v1H7V8zm3 0h2v1h-2V8zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1z"/>
+                    </svg>&nbsp;
+                    最近发布的文章</h6>
+            </div>
+
+            <!-- 旋转木马展示文章 -->
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+
+                        <div class="carousel-item active" data-bs-interval="5000">
+                            <img th:src="@{/img/news/news0.jpg}">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 class="text-white">欢迎来到新闻管理页面</h5>
+                            </div>
+                        </div>
+
+                        <div th:each="news:${newsList}"  th:class="carousel-item" class="carousel-item" data-bs-interval="5000">
+                            <img th:src="@{${news.mainImg}}">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 th:text="${news.title}" class="text-white">新闻标题</h5>
+                            </div>
+                        </div>
+
+                        <!-- 问题：按钮无法更改主题 -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next " type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!--模态块-->
+<div th:insert="common :: #commonState"></div>
+
+</body>
+<html>

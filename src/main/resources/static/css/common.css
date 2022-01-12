@@ -1,0 +1,8 @@
+.news-column{
+    margin-left: 0rem !important;
+}
+@media (min-width: 768px){
+    .news-column{
+        margin-left: 0.5rem !important;
+    }
+}

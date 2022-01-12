@@ -1,0 +1,136 @@
+:root{
+    --base:#f8f5f8;
+    --base-reverse:#212529;
+    --base-more:#fff;
+    --base-reverse-more:#000;
+    --base-less:#505050;
+    --base-reverse-less: #a0a0a0;
+    --body-bg:#f2f3f5;
+}
+
+.bg-base{
+    background-color:var(--base) !important;
+}
+.bg-base-reverse{
+    background-color:var(--base-reverse) !important;
+}
+.bg-base-more{
+    background-color:var(--base-more) !important;
+}
+.bg-base-reverse-more{
+    background-color:var(--base-reverse-more) !important;
+}
+.bg-base-less{
+    background-color:var(--base-less) !important;
+}
+.bg-base-reverse-less{
+    background-color:var(--base-reverse-less) !important;
+}
+
+.text-base{
+    color: var(--base) !important;
+}
+.text-base-reverse{
+    color: var(--base-reverse) !important;
+}
+.text-base-less{
+    color: var(--base-less) !important;
+}
+.text-base-reverse-less{
+    color: var(--base-reverse-less) !important;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--body-bg);
+    transition: all 0.3s;
+}
+
+.sidebar {
+    height: 100vh;
+    min-height: 380px;
+    width: 280px;
+    z-index: 1000;
+}
+
+.themeChanger{
+    appearance: none;
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    margin: 0;
+    vertical-align: top;
+    background: var(--base);
+    border: 1px solid #bbc1e1;
+    border-radius: 30px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+}
+
+.themeChanger::after{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 3px;
+    top: 1.5px;
+    width: 25px;
+    height: 25px;
+    background-color: var(--base-reverse);
+    border-radius: 50%;
+    transform: translateX(0);
+    transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+}
+
+.themeChanger:checked::after {
+    transform: translateX(calc(80% - 2px));
+    background-color: var(--base);
+}
+
+.themeChanger:checked {
+    background-color: var(--base-reverse);
+}
+
+.content-bg {
+    padding-left: 280px;
+    width: 100%;
+}
+
+.content-header {
+    width: 100%;
+    height: 60px;
+}
+
+.content-address {
+    padding-left: 33px;
+    padding-top: 11px;
+    color: var(--base-less);
+}
+
+.content-address li:before {
+    content: "/ ";
+}
+
+.content {
+    width: 100%;
+}
+
+.content-item {
+    height: 100px;
+    border-radius: 20px;
+}
+
+.page-item
+{
+    margin: 10px;
+}
+.ariaLabel
+{
+    margin-left: 15px;
+    width: 200px;
+    color: #000000;
+    font-size: 15px;
+    border-color: #F8F5F8;
+    border: 2px;
+}

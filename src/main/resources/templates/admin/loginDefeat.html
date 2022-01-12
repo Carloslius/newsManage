@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="common :: #commonCSS"></div>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <title>登陆后台</title>
+</head>
+
+<body class="d-flex align-items-center justify-content-center">
+<main>
+    <form action="/user/login" method="post">
+        <h2 class="mb-3 text-center">登陆后台</h2>
+        <div class="form-floating">
+            <input name="acct" type="text" class="form-control" id="account">
+            <label for="account" class="form-label">User Name</label>
+        </div>
+        <div class="form-floating">
+            <input name="pwd" type="password" class="form-control" id="psw">
+            <label for="psw" class="form-label">Password</label>
+        </div>
+        <button type="submit" class="btn btn-success w-100 disabled" id="submit">
+            <div id="submit-text">
+                <div>登入</div>
+                <div class="iconfont icon-huojian"></div>
+            </div>
+        </button>
+        <p class="mt-5 mb-3 text-muted">&copy;  2022</p>
+    </form>
+</main>
+</body>
+<script>
+    //检查表单是否输入
+    function checkInput(){
+        if($("#account").val() != '' && $("#psw").val() != ''){
+            $("#submit").removeClass("disabled");
+        }
+        else{
+            $("#submit").addClass("disabled");
+        }
+    }
+    $(document).ready(function(){
+        $("#account").keyup(checkInput);
+        $("#psw").keyup(checkInput);
+    })
+</script>
+</html>

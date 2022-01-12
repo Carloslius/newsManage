@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:insert="common :: #commonCSS"></div>
+    <div th:insert="common :: #commonJS"></div>
+    <title>撰写新闻</title>
+</head>
+
+<!--
+    主要根据主题色扩展Bootstrap颜色类
+-->
+
+<body>
+
+<!--侧边栏-->
+<div th:insert="common :: #commonSidePostNews"></div>
+
+<!-- 模态框 -->
+<div th:insert="common :: #commonState"></div>
+
+<!--主内容区域-->
+<div class="content-bg">
+    <!--头部-->
+    <div class="bg-base-more text-base-reverse content-header d-flex flex-row justify-content-between align-items-center">
+        <div class="mx-3">
+            <a class="text-decoration-none text-base-reverse" href="#"><span class="iconfont icon-wangzhanshezhi" style="font-size: 30px"></span></a>
+        </div>
+        <div class="mx-3">
+            <label class="text" for="themeChanger">切换主题</label>
+            <input class="themeChanger" id="themeChanger" type="checkbox" onclick="ChangeTheme()">
+        </div>
+    </div>
+    <!--当前路径-->
+    <div class="content-address list-inline">
+        <ul>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    编辑界面
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    编辑新闻
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--功能模块-->
+   <div class="content row m-0">
+	
+		<!-- 导航栏 -->
+       <div class="col-12 p-0">
+           <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+               <h1>撰写新文章</h1>
+           </div>
+       </div>
+		<!-- 表单 -->
+		<form class="row" action="/news/saveNews?currentPage=1&size=5" method="post">
+            <input type="hidden" name="author" th:value="${session.loginUser.id}">
+			<!-- 左边内容 -->
+			<div class="col-8 p-0">
+				<!-- 标题 -->
+				<div class="rounded-3 m-2 p-1 bg-base-more text-center text-base-reverse ">
+					<input name="title" type="text" class="text-base-reverse bg-base border-0 w-100 h-100" placeholder="标题"> 
+				</div>
+				
+				
+				<!-- 文本框 -->
+				<div class="rounded-3 m-2 p-1 bg-base-more text-center text-base-reverse h-75">
+					<textarea name="detail" class="border-0 bg-base text-base-reverse w-100 h-100" placeholder="请输入文本"></textarea>
+				</div>
+				
+				<!-- 描述 -->
+				<div class="rounded-3 m-2 p-1 bg-base-more text-center text-base-reverse ">
+					<textarea name="deScr" class="border-0 bg-base text-base-reverse w-100 h-100" placeholder="新闻描述" rows="1" cols="89"></textarea>
+				</div>	
+				
+				<!-- 提交按钮 -->
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2 mb-0">
+				  <!--<button class="btn btn-primary me-md-2 btn-sm bg-base-more text-base-reverse border-0" type="button">保存草稿</button>-->
+				  <button class="btn btn-primary me-2 btn-sm bg-base-more text-base-reverse border-0" type="submit">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
+                          <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"/>
+                      </svg>&nbsp;发布文章</button>
+				</div>
+	
+			</div>
+			
+			<!-- 右边内容 -->
+			<div class="col-4 p-0">
+				<div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse h-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-radios-grid" viewBox="0 0 16 16">
+                        <path d="M3.5 15a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm9-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zM16 3.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0zm-9 9a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0zm5.5 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zm-9-11a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 2a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                    </svg>
+					高级选项
+					<hr class="bg-base-reverse ">
+					
+					<!-- 发布日期 右边距不会调-->
+					<div class="me-2">
+                        <div class="text-base-reverse fw-bold fs-5 text-start mx-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-calendar-date" viewBox="0 0 16 16">
+                                <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                            </svg>发布日期</div>
+                        <input type="date" name="crTime" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}" class="w-100 m-2 bg-base text-base-reverse border-0" placeholder="请输入发布日期"/>
+                    </div>
+					
+					<!-- 栏目下拉选项 -->
+					<div class="text-base-reverse fw-bold fs-5 text-start mx-2 mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-columns" viewBox="0 0 16 16">
+                            <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V2zm8.5 0v8H15V2H8.5zm0 9v3H15v-3H8.5zm-1-9H1v3h6.5V2zM1 14h6.5V6H1v8z"/>
+                        </svg>栏目</div>
+					<div class="m-2">
+					    <select name="proCode" class="form-select border-0 bg-base text-base-reverse" aria-label="Default select example">
+					      <!--<option selected value="0" class="bg-base text-base-reverse">默认栏目</option>-->
+					      <option th:each="newsPro:${newsProList}" th:value="${newsPro.id}"
+                                  th:text="${newsPro.name}" class="bg-base text-base-reverse"></option>
+					    </select>
+					</div>
+					
+					<!-- 关键词 -->
+					<!--<div class="text-base-reverse fw-bold fs-5 text-start mx-2 mt-4">关键词</div>
+					<input type="text" name="KeyWords" class="w-100 bg-base text-base-reverse border-0" placeholder="请输入新闻关键字"/>-->
+					
+					
+					<!-- 新闻来源 -->
+					<div class="text-base-reverse fw-bold fs-5 text-start mx-2 mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16">
+                            <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/>
+                        </svg>新闻来源</div>
+					<input type="text" name="source" class="w-100 bg-base text-base-reverse border-0" placeholder="请输入新闻来源"/>
+					
+					<input type="hidden" name="mainImg" value="/img/news/news0.jpg">
+                    <input type="hidden" name="view" value="0">
+                    <input type="hidden" name="top" value="0">
+                    <input type="hidden" name="state" value="0">
+                    <input type="hidden" name="author" value="0">
+                    <input type="hidden" name="upTime" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}">
+				</div>
+			</div>
+			</form>
+   </div>
+	   
+</div>
+
+</body>
+
+</html>

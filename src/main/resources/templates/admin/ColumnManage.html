@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="common :: #commonCSS"></div>
+    <div th:insert="common :: #commonJS"></div>
+    <title>网站概要</title>
+</head>
+
+<!--
+    主要根据主题色扩展Bootstrap颜色类
+-->
+
+<body>
+
+<!--侧边栏-->
+<div th:insert="common :: #commonSideColumn"></div>
+
+<!-- 模态框 -->
+<div th:insert="common :: #commonState"></div>
+
+<!--主内容区域-->
+<div class="content-bg">
+    <!--头部-->
+    <div
+            class="bg-base-more text-base-reverse content-header d-flex flex-row justify-content-between align-items-center">
+        <div class="mx-3">
+            <a class="text-decoration-none text-base-reverse" href="#"><span class="iconfont icon-wangzhanshezhi"
+                                                                             style="font-size: 30px"></span></a>
+        </div>
+        <div class="mx-3">
+            <label class="text" for="themeChanger">切换主题</label>
+            <input class="themeChanger" id="themeChanger" onclick="ChangeTheme()" type="checkbox">
+        </div>
+    </div>
+    <!--当前路径-->
+    <div class="content-address list-inline">
+        <ul>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    管理界面
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    专栏管理
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--功能模块-->
+    <!--标题-->
+    <div class="content row m-0">
+        <div class="col-12 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                <h1>专栏管理</h1>
+            </div>
+        </div>
+        <!--模态框-->
+        <div class="col-12 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more  text-base-reverse">
+                <button class="btn btn-primary" data-bs-target="#myModal1" data-bs-toggle="modal" id="add"
+                        type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                    添加专栏
+                </button>
+                <!--<button class="btn btn-success" data-bs-target="#myModal2" data-bs-toggle="modal" id="modify"
+                    type="button">
+                    编辑专栏
+                </button>-->
+                <button class="btn btn-danger" data-bs-target="#myModal3" data-bs-toggle="modal" id="delete"
+                        type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                    删除专栏
+                </button>
+            </div>
+        </div>
+        <div class="col-12 p-0">
+            <div class="rounded-3 m-2 p-2 bg-base-more text-center">
+                <table class="table table-striped text-base-reverse">
+                    <tr>
+                        <th class="text-base-reverse">
+                            编号
+                        </th>
+                        <th class="text-base-reverse">
+                            名称
+                        </th>
+                        <th class="text-base-reverse">
+                            排列序号
+                        </th>
+                        <th class="text-base-reverse">
+                            修改时间
+                        </th>
+                        <th class="text-base-reverse">
+                            操作
+                        </th>
+                    </tr>
+                    <tr th:each="newsPro:${newsProList}">
+                        <td class="text-base-reverse"><label><input name="id" th:value="${newsPro.id}" type="checkbox"><span th:text="${newsPro.id}"></span></label></td>
+                        <td class="text-base-reverse"><label th:text="${newsPro.name}"></label></td>
+                        <td class="text-base-reverse"><label th:text="${newsPro.sort}"></label></td>
+                        <td class="text-base-reverse"><label th:text="${#dates.format(newsPro.upTime,'yyyy-MM-dd')}"></label></td>
+                        <td class="text-base-reverse">
+                            <button onclick="editNewsPro(this.value)" th:value="${newsPro.id}"
+                                    class="btn btn-success" data-bs-target="#myModal2" data-bs-toggle="modal" id="modify"
+                                    type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+                                    <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"/>
+                                </svg>
+                                编辑专栏
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--分页标签 -->
+        <nav aria-label="..." class="ariaLabel w-100 m-0">
+            <ul class="pagination w-100 d-flex justify-content-center">
+                <li th:if="${newsProCurrentPage} gt 1" class="page-item">
+                    <a class="page-link bg-base text-base-reverse" id="pagelabel1" th:href="|/newsPro/showNewsProList?currentPage=${newsProCurrentPage+(-1)}&size=${newsProSize}|" tabindex="-1" style="width: 4.5rem;">上一页</a>
+                </li>
+                <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${newsProCurrentPage+(-2)} ge 1"
+                                         th:href="|/newsPro/showNewsProList?currentPage=${newsProCurrentPage+(-2)}&size=${newsProSize}|" th:text="${newsProCurrentPage+(-2)}">1</a></li>
+                <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${newsProCurrentPage+(-1)} ge 1"
+                                         th:href="|/newsPro/showNewsProList?currentPage=${newsProCurrentPage+(-1)}&size=${newsProSize}|" th:text="${newsProCurrentPage+(-1)}">2</a></li>
+                <li class="page-item"><a class="page-link bg-base text-base-reverse"
+                                         th:text="${newsProCurrentPage}">3</a></li>
+                <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${newsProCurrentPage+1} le ${newsProPage}"
+                                         th:href="|/newsPro/showNewsProList?currentPage=${newsProCurrentPage+1}&size=${newsProSize}|" th:text="${newsProCurrentPage+1}">4</a></li>
+                <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${newsProCurrentPage+2} le ${newsProPage}"
+                                         th:href="|/newsPro/showNewsProList?currentPage=${newsProCurrentPage+2}&size=${newsProSize}|" th:text="${newsProCurrentPage+2}">5</a></li>
+                <li th:if="${newsProCurrentPage} lt ${newsProPage}" class="page-item">
+                    <a class="page-link bg-base text-base-reverse" id="pagelabel2" th:href="|/newsPro/showNewsProList?currentPage=${newsProCurrentPage+1}&size=${newsProSize}|" style="width: 4.5rem;">下一页</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- 添加模态框 -->
+<div class="modal text-base-reverse" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-base">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">添加专栏</h4>
+                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+
+            <!-- 模态框内容 -->
+            <div class="modal-body">
+                <form action="/newsPro/addNewsPro?currentPage=1&size=5" method="post">
+                    <input type="hidden" name="crTime" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}">
+                    <input type="hidden" name="upTime" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}">
+                    <div class="form-group">
+                        <label for="exampleInputzhuanlan1">栏目名</label>
+                        <input name="name" class="form-control bg-base" id="exampleInputzhuanlan1" placeholder="专栏" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputOrder1">排列顺序</label>
+                        <input name="sort" class="form-control bg-base" id="exampleInputOrder1" placeholder="排列顺序" type="text">
+                    </div>
+
+                    <button class="btn btn-primary mt-2" type="submit">确定</button>
+                </form>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-bs-dismiss="modal" type="button">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 编辑模态框 -->
+<div class="modal text-base-reverse" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content bg-base">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">编辑专栏</h4>
+                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+
+            <!-- 模态框内容 -->
+            <div class="modal-body">
+                <form action="/newsPro/updateNewsProByIdInModel" method="post">
+                    <input id="alterCol" name="id" value="1" type="hidden">
+                    <div class="form-group">
+                        <label for="exampleInputzhuanlan2">栏目名</label>
+                        <input name="name" class="form-control bg-base" id="exampleInputzhuanlan2" placeholder="专栏" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputOrder2">排列顺序</label>
+                        <input name="sort" class="form-control bg-base" id="exampleInputOrder2" placeholder="排列顺序" type="text">
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">确定</button>
+                </form>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-bs-dismiss="modal" type="button">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 删除模态框 -->
+<div class="modal text-base-reverse" id="myModal3">
+    <div class="modal-dialog">
+        <div class="modal-content bg-base">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">删除栏目</h4>
+                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+
+            <!-- 模态框内容 -->
+            <div class="modal-body">
+                <p class="text-center">
+                    <span style="font-size: 30px;color: red;">确定要删<span>此类</span>吗？</span>
+                </p>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button onclick="deleteBatch()" class="btn btn-danger" data-bs-dismiss="modal" type="button">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+    var curWwwPath=window.document.location.href;
+    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+    var pathName=window.document.location.pathname;
+    var pos=curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8083
+    var localhostPaht=curWwwPath.substring(0,pos);
+    //获取带"/"的项目名，如：/uimcardprj
+    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+
+    function deleteBatch(){
+
+        var idArry = document.getElementsByName("id");
+        var href = localhostPaht + projectName + "/deleteNewsProByIdBatch?";
+        for (var i = 0; i < idArry.length; ++i) { //遍历数组中的对象，查看有没有被选择的值
+            if (idArry[i].checked) {  //checked代表被选择
+                href += "id=" + idArry[i].value + "&";  //把被选择的数据复制给idChecked变量
+            }
+        }
+        console.log(href);
+        window.location.href = href;
+    }
+
+    function editNewsPro(id){
+        document.getElementById("alterCol").value = id;
+    }
+</script>
+</body>
+</html>

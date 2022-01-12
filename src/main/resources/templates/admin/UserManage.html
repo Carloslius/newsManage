@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:insert="common :: #commonCSS"></div>
+    <div th:insert="common :: #commonJS"></div>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link th:href="@{/css/userManagement.css}" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script th:src="@{/js/userManagement.js}"></script>
+
+    <title>用户管理</title>
+</head>
+
+<!--
+    主要根据主题色扩展Bootstrap颜色类
+-->
+
+<body>
+
+<!--侧边栏-->
+<div th:insert="common :: #commonSideUser"></div>
+
+<!-- 模态框 -->
+<div th:insert="common :: #commonState"></div>
+
+<!--主内容区域-->
+<div class="content-bg">
+    <!--头部-->
+    <div
+            class="bg-base-more text-base-reverse content-header d-flex flex-row justify-content-between align-items-center">
+        <div class="mx-3">
+            <a class="text-decoration-none text-base-reverse" href="#"><span class="iconfont icon-wangzhanshezhi"
+                                                                             style="font-size: 30px"></span></a>
+        </div>
+        <div class="mx-3">
+            <label class="text" for="themeChanger">切换主题</label>
+            <input class="themeChanger" id="themeChanger" type="checkbox" onclick="ChangeTheme()">
+        </div>
+    </div>
+    <!--当前路径-->
+    <div class="content-address list-inline">
+        <ul>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    管理界面
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                    用户管理
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--功能模块-->
+    <div class="content row m-0">
+
+
+        <div class="col-12 p-0">
+            <div class="rounded-3 p-2 bg-base-more text-center text-base-reverse">
+                <h2>用户管理</h2>
+            </div>
+        </div>
+        <div class="col-12 p-0">
+            <div class="rounded-3 mx-2 p-2 bg-base-more text-base-reverse d-flex justify-content-between">
+                <div class="input-group w-50 p-1">
+                    <input id="searchUser" type="text" class="w-50 h-100 bg-base " placeholder="请输入关键字">
+                    <button onclick="searchUsers()" class="btn btn-primary btn-lg" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>&nbsp;搜索</button>
+                </div>
+                <div class="input-group w-auto mx-2">
+                    <button type="button" class="mx-2 rounded-3 btn btn-primary" data-toggle="modal"
+                            data-target="#addModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                        添加
+                    </button>
+                    <!--<button type="button" class="mx-2 rounded-3 btn btn-success" data-toggle="modal"
+                        data-target="#editModal">
+                        编辑
+                    </button>-->
+                    <button type="button" class="mx-2 rounded-3 btn btn-danger" data-toggle="modal"
+                            data-target="#deleteModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                        删除
+                    </button>
+                    <button type="button" class="mx-2 rounded-3 btn btn-warning" data-toggle="modal"
+                            data-target="#authorModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        </svg>
+                        授权
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--模态框 添加用户-->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal modal-dialog-centered" role="document">
+            <div class="modal-content bg-base">
+
+                <div class="modal-header">
+                    <h5 class="modal-title text-base-reverse" id="exampleModalLabel-add">
+                        <img class="usernameLabel bg-base-reverse" th:src="@{/img/add.png}" alt="图片加载中" />
+                        添加用户
+                    </h5>
+
+                    <button type="button" class="close text-base-reverse" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!--模态框头上的关闭按钮 -->
+                </div>
+
+                <div class="modal-body">
+
+                    <form action="/user/saveUser?currentPage=1&size=4" method="post">
+                        <div class="form-group">
+                            <label for="inputUserName" class="col-form-label">请输入用户名:</label>
+                            <input name="name" type="text" class="form-control text-base-reverse" id="inputUserName">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputUserName" class="col-form-label">请输入账号:</label>
+                            <input name="acct" type="text" class="form-control text-base-reverse" id="inputAcct">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputUserPwd" class="col-form-label">请输入密码:</label>
+                            <input name="pwd" type="password" class="form-control text-base-reverse" id="inputUserPwd">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label text-base-reverse">请选择用户权限:</label>
+                            <input type="radio" class="userRole" name="permission" value="1" checked="checked" /> <label
+                                class="alabel text-base-reverse">编辑</label>
+                            <input type="radio" class="userRole" name="permission" value="0" /> <label
+                                class="alabel text-base-reverse">管理员</label>
+                        </div>
+                        <input type="hidden" name="crTime" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}">
+                        <input type="hidden" name="upTime" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}">
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <!--可直接关闭-->
+                            <button type="submit" class="btn add text-base-reverse">添加</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--模态框 编辑用户-->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-base">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel-edit text-base-reverse">
+                        <img class="usernameLabel bg-base-reverse" th:src="@{/img/edit.png}" alt="图片加载中" />
+                        <span class=" text-base-reverse">编辑用户信息</span>
+                    </h5>
+
+                    <button type="button" class="close text-base-reverse" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!--模态框头上的关闭按钮 -->
+                </div>
+
+                <div class="modal-body">
+
+                    <form action="/user/updateUserById?currentPage=1&size=4" method="post">
+                        <input id="editID" type="hidden" name="id" value="1">
+                        <div class="form-group">
+                            <label for="editUserName" class="col-form-label text-base-reverse">请输入新的用户名:</label>
+                            <input name="name" type="text" class="form-control" id="editUserName">
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserPwd" class="col-form-label text-base-reverse">请输入新的密码:</label>
+                            <input name="pwd" type="password" class="form-control" id="editUserPwd">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <!--可直接关闭-->
+                            <button type="submit" class="btn edit text-base-reverse">确定</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!--模态框 删除用户 -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-base">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle-delete">
+                        <img class="usernameLabel bg-base-reverse" th:src="@{/img/delete.png}" alt="图片加载中" />
+                        <span class="text-base-reverse">删除用户</span></h5>
+                    <button type="button" class="close text-base-reverse" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label class="col-form-label text-base-reverse">确定删除此用户吗？</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button onclick="deleteBatch()" class="btn delete text-base-reverse">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--模态框 用户权限-->
+    <div class="modal fade" id="authorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal modal-dialog-centered" role="document">
+            <div class="modal-content bg-base">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel-author text-base-reverse">
+                        <img class="usernameLabel bg-base-reverse" th:src="@{/img/author.png}" alt="图片加载中" />
+                        <span class="text-base-reverse">栏目授权管理</span>
+                    </h5>
+                    <button type="button" class="close text-base-reverse" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!--模态框头上的关闭按钮 -->
+                </div>
+
+                <div> <label class="col-form-label text-base-reverse">请为该用户选择授权</label> </div>
+                <div class="modal-body text-base-reverse">
+                    <input type="radio" name="authorPermission" value="0" /><label
+                        class="userAuthority-checkbox text-base-reverse">管理员</label>
+                    <input type="radio" name="authorPermission" value="1" /><label
+                        class="userAuthority-checkbox text-base-reverse">编辑</label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <!--可直接关闭-->
+                    <button onclick="grantPermission()" type="submit" class="btn author text-base-reverse">确定</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--用户信息表-->
+    <div class="content row m-0">
+
+        <div class="col-12 p-0">
+
+            <div class="rounded-3 p-2 bg-base-more  text-base-reverse">
+
+                <table class="table text-base-reverse">
+                    <thead class="thead-dark">
+                    <tr class="text-base-reverse">
+                        <th scope="col">ID</th>
+                        <th scope="col">用户名</th>
+                        <th scope="col">账号</th>
+                        <th scope="col">密码</th>
+                        <th scope="col">权限</th>
+                        <th scope="col">创建日期</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="tbody">
+                    <tr th:each="user:${userList}">
+                        <th scope="row"><input th:text="${user.id}" th:value="${user.id}" name="id" type="checkbox" class="chooseRow" /></th>
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.acct}"></td>
+                        <td th:text="${user.pwd}"></td>
+                        <td th:if="${user.permission} eq 0">管理员</td>
+                        <td th:if="${user.permission} eq 1">编辑</td>
+                        <td th:text="${#dates.format(user.crTime,'yyyy-MM-dd')}"></td>
+                        <td>
+                            <button onclick="getEditId(this.value)" th:value="${user.id}" type="button" class="mx-2 rounded-3 btn btn-success"
+                                    data-toggle="modal" data-target="#editModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>编辑
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--分页标签 -->
+                <nav aria-label="..." class="ariaLabel w-100 m-0">
+                    <ul class="pagination w-100 d-flex justify-content-center">
+                        <li th:if="${userCurrentPage} gt 1" class="page-item">
+                            <a class="page-link bg-base text-base-reverse" id="pagelabel1" th:href="|/user/showUserList?currentPage=${userCurrentPage+(-1)}&size=${userSize}|"  tabindex="-1" style="width: 4.5rem;">上一页</a>
+                        </li>
+                        <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${userCurrentPage+(-2)} ge 1"
+                                                 th:href="|/user/showUserList?currentPage=${userCurrentPage+(-2)}&size=${userSize}|" th:text="${userCurrentPage+(-2)}">1</a></li>
+                        <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${userCurrentPage+(-1)} ge 1"
+                                                 th:href="|/user/showUserList?currentPage=${userCurrentPage+(-1)}&size=${userSize}|" th:text="${userCurrentPage+(-1)}">2</a></li>
+                        <li class="page-item"><a class="page-link bg-base text-base-reverse"
+                                                 th:text="${userCurrentPage}">3</a></li>
+                        <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${userCurrentPage+1} le ${userPage}"
+                                                 th:href="|/user/showUserList?currentPage=${userCurrentPage+1}&size=${userSize}|" th:text="${userCurrentPage+1}">4</a></li>
+                        <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${userCurrentPage+2} le ${userPage}"
+                                                 th:href="|/user/showUserList?currentPage=${userCurrentPage+2}&size=${userSize}|" th:text="${userCurrentPage+2}">5</a></li>
+                        <li th:if="${userCurrentPage} lt ${userPage}" class="page-item">
+                            <a class="page-link bg-base text-base-reverse" id="pagelabel2" th:href="|/user/showUserList?currentPage=${userCurrentPage+1}&size=${userSize}|" style="width: 4.5rem;">下一页</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+    var curWwwPath=window.document.location.href;
+    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+    var pathName=window.document.location.pathname;
+    var pos=curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8083
+    var localhostPaht=curWwwPath.substring(0,pos);
+    //获取带"/"的项目名，如：/uimcardprj
+    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+
+    function deleteBatch(){
+
+        var idArry = document.getElementsByName("id");
+        var href = localhostPaht + projectName + "/deleteUserByIdBatch?";
+        for (var i = 0; i < idArry.length; ++i) { //遍历数组中的对象，查看有没有被选择的值
+            if (idArry[i].checked) {  //checked代表被选择
+                href += "id=" + idArry[i].value + "&";  //把被选择的数据复制给idChecked变量
+            }
+        }
+        console.log(href);
+        window.location.href = href;
+    }
+
+    function grantPermission() {
+        let IDList = document.getElementsByName("id");
+        let ids = "";
+        IDList.forEach(element => {
+            if (element.checked) {
+                ids += "ids=" + element.value + "&";
+            }
+        });
+
+        let radioList = document.getElementsByName("authorPermission");
+        let permissionValue = "permission=";
+        radioList.forEach(element => {
+            if (element.checked) {
+                permissionValue += element.value;
+            }
+        });
+        window.location.href = localhostPaht + projectName + "/grantUserPermissionByIdBatch?" + ids + permissionValue;
+    }
+
+    function getEditId(value) {
+        document.getElementById("editID").value = value;
+    }
+
+    function searchUsers(){
+        setTimeout(searchUsers,500);
+        var keyword = document.getElementById("searchUser").value;
+        window.location.href = localhostPaht + projectName + "/searchUserKeyWord?keyword=" + keyword;
+    }
+</script>
+</body>
+
+</html>

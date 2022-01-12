@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/admin-login.css}">
+    <link rel="stylesheet" th:href="@{/css/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/css/loginAdditions.css}" />
+    <script th:src="@{/js/snowscript.js}"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <title>登陆后台</title>
+</head>
+
+<body class="d-flex align-items-center justify-content-center">
+<main>
+    <div class="loginLabel">
+        <form action="/user/login" method="post">
+            <h1 class=" text-center TitleLabel">News Management</h1>
+            <div class="inputLabel1">
+                <img th:src="@{/img/username.png}" class="loginImg"/>
+                <input name="acct" type="text" class=" inputuserNameLabel" id="account" placeholder="UserName">
+            </div>
+            <div class="inputLabel">
+                <img th:src="@{/img/pas.png}" class="loginImg"/>
+                <input name="pwd" type="password" class=" inputuserPwdLabel" id="psw" placeholder="PassWord">
+
+            </div>
+            <button type="submit" class="btn btn-success w-100 disabled loginbtn" id="submit">
+                <div id="submit-text">
+                    <div>登入</div>
+                    <div class="iconfont icon-huojian"></div>
+                </div>
+            </button>
+            <p class="mt-5 mb-2 text-muted">&copy;  2022</p >
+        </form>
+    </div>
+</main>
+</body>
+<script>
+    //检查表单是否输入
+    function checkInput(){
+        if($("#account").val() != '' && $("#psw").val() != ''){
+            $("#submit").removeClass("disabled");
+        }
+        else{
+            $("#submit").addClass("disabled");
+        }
+    }
+    $(document).ready(function(){
+        $("#account").keyup(checkInput);
+        $("#psw").keyup(checkInput);
+    })
+</script>
+</html>
+
+

@@ -1,0 +1,50 @@
+.bg-admin{
+    background-color: #d3cbaf;
+}
+
+body {
+    height: 100vh;
+}
+
+main{
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+}
+
+.form-floating:focus-within{
+    z-index: 2;
+}
+
+input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+button[type="submit"] {
+    height: 38px;
+    overflow: hidden;
+}
+#submit-text div:nth-child(1){
+    padding-bottom: 14px;
+}
+#submit-text div:nth-child(2){
+    font-size: 30px;
+}
+
+#submit-text{
+    transition-property: transform;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+}
+
+button[type="submit"]:hover #submit-text{
+    transform: translateY(-50px);
+}

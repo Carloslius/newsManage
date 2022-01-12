@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="common :: #commonCSS"></div>
+    <div th:insert="common :: #commonJS"></div>
+    <script>
+        function search(){
+            //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+            var curWwwPath=window.document.location.href;
+            //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+            var pathName=window.document.location.pathname;
+            var pos=curWwwPath.indexOf(pathName);
+            //获取主机地址，如： http://localhost:8083
+            var localhostPath=curWwwPath.substring(0,pos);
+            //获取带"/"的项目名，如：/uimcardprj
+            var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+            setTimeout(search,500);
+            var string = document.getElementById('searchText').value;
+            window.location.href = localhostPath + projectName + "/showNewsList?currentPage=1&size=4&keyword=" + string;
+        }
+    </script>
+    <title>网站概要</title>
+</head>
+
+<!--
+    主要根据主题色扩展Bootstrap颜色类
+-->
+
+<body>
+
+    <!--侧边栏-->
+    <div th:insert="common :: #commonSideNews"></div>
+
+    <!-- 模态框 -->
+    <div th:insert="common :: #commonState"></div>
+
+    <!--主内容区域-->
+    <div class="content-bg">
+        <!--头部-->
+        <div
+            class="bg-base-more text-base-reverse content-header d-flex flex-row justify-content-between align-items-center">
+            <div class="mx-3">
+                <a class="text-decoration-none text-base-reverse" href="#"><span class="iconfont icon-wangzhanshezhi"
+                        style="font-size: 30px"></span></a>
+            </div>
+            <div class="mx-3">
+                <label class="text" for="themeChanger">切换主题</label>
+                <input class="themeChanger" id="themeChanger" type="checkbox" onclick="ChangeTheme()">
+            </div>
+        </div>
+        <!--当前路径-->
+        <div class="content-address list-inline">
+            <ul>
+                <li class="list-inline-item">
+                    <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                        管理界面
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-decoration-none" href="#" style="color: var(--base-less);">
+                        新闻管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--功能模块-->
+        <div class="content row m-0">
+            <div class="col-12 p-0">
+                <div class="rounded-3 m-2 p-2 bg-base-more text-center text-base-reverse">
+                    <h1>新闻管理</h1>
+                </div>
+            </div>
+
+            <!--功能选择区-->
+            <div class="col-12 p-0">
+                <div class="rounded-3 mx-2 p-2 bg-base-more text-base-reverse d-flex justify-content-between">
+                    <div class="input-group w-50">
+                        <input id="searchText" type="text" class="form-control" placeholder="请输入关键字">
+                        <button class="btn btn-primary active btn-lg" type="submit" onclick="search()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>&nbsp;
+                            搜索</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 p-0">
+                <div class="rounded-3 m-2 p-2 bg-base-more text-base-reverse">
+                    <form>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-base-reverse">序号</th>
+                                <th class="text-base-reverse">标题</th>
+                                <th class="text-base-reverse">栏目</th>
+                                <th class="text-base-reverse">发布时间</th>
+                                <th class="text-base-reverse">作者</th>
+                                <th class="text-base-reverse">发布状态</th>
+                                <th class="text-base-reverse">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="news:${newsList}">
+                                <td th:text="${news.id}" class="text-base-reverse"></td>
+                                <td th:text="${news.title}" class="text-base-reverse"></td>
+                                <td th:text="${news.proCode}" class="text-base-reverse"></td>
+                                <td th:text="${#dates.format(news.crTime,'yyyy-MM-dd')}" class="text-base-reverse"></td>
+                                <td th:text="${news.author}" class="text-base-reverse"></td>
+                                <td th:if="${news.state} eq 0" class="text-base-reverse">待发布</td>
+                                <td th:if="${news.state} eq 1" class="text-base-reverse">已发布</td>
+                                <td class="text-base-reverse">
+                                    <a th:href="|/news/publishNewsById?currentPage=${newsCurrentPage}&size=${newsSize}&id=${news.id}|" class="btn btn-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
+                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"/>
+                                        </svg>&nbsp;发布</a>
+                                    <a th:href="|/news/deleteNewsById?currentPage=${newsCurrentPage}&size=${newsSize}&id=${news.id}|" class="btn btn-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>&nbsp;删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </form>
+                </div>
+            </div>
+            <!--分页标签 -->
+            <nav aria-label="..." class="ariaLabel w-100 m-0">
+                <ul class="pagination w-100 d-flex justify-content-center">
+                    <li th:if="${newsCurrentPage} gt 1" class="page-item">
+                        <a class="page-link bg-base text-base-reverse" id="pagelabel1" th:href="|/news/showNewsList?currentPage=${newsCurrentPage+(-1)}&size=${newsSize}|" tabindex="-1" style="width: 4.5rem;">上一页</a>
+                    </li>
+                    <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${newsCurrentPage+(-2)} ge 1"
+                                             th:href="|/news/showNewsList?currentPage=${newsCurrentPage+(-2)}&size=${newsSize}|" th:text="${newsCurrentPage+(-2)}">1</a></li>
+                    <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${newsCurrentPage+(-1)} ge 1"
+                                             th:href="|/news/showNewsList?currentPage=${newsCurrentPage+(-1)}&size=${newsSize}|" th:text="${newsCurrentPage+(-1)}">2</a></li>
+                    <li class="page-item"><a class="page-link bg-base text-base-reverse"
+                                             th:text="${newsCurrentPage}">3</a></li>
+                    <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${newsCurrentPage+1} le ${newsPage}"
+                                             th:href="|/news/showNewsList?currentPage=${newsCurrentPage+1}&size=${newsSize}|" th:text="${newsCurrentPage+1}">4</a></li>
+                    <li class="page-item"><a class="page-link bg-base text-base-reverse" th:if="${newsCurrentPage+2} le ${newsPage}"
+                                             th:href="|/news/showNewsList?currentPage=${newsCurrentPage+2}&size=${newsSize}|" th:text="${newsCurrentPage+2}">5</a></li>
+                    <li th:if="${newsCurrentPage} lt ${newsPage}" class="page-item">
+                        <a class="page-link bg-base text-base-reverse" id="pagelabel2" th:href="|/news/showNewsList?currentPage=${newsCurrentPage+1}&size=${newsSize}|" style="width: 4.5rem;">下一页</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

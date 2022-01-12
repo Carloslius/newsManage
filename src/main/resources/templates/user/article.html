@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:insert="common :: #commonCSSUser"></div>
+	<title>校园新闻</title>
+</head>
+
+<body  style="background-color: var(--bs-gray-200);">
+	<div th:insert="common :: #commonTop"></div>
+<div class="container mt-2">
+	<article>
+		<!--新闻标题-->
+		<div class="article-header p-2 bg-white">
+			<h1 th:text="${news.title}" class="px-3"></h1>
+			<div class="d-flex justify-content-between">
+				<div class="small">
+					<div>作者：<span th:text="${news.author}">admin</span></div>
+					<div>专栏：<span th:text="${news.proCode}">教务处</span></div>
+				</div>
+				<div class="small">
+					<div>
+						<span class="iconfont icon-view"></span>
+						<span th:text="${news.view}">123</span>次
+					</div>
+					<div th:text="${#dates.format(news.upTime,'yyyy-MM-dd')}">2022/1/7 12:00</div>
+				</div>
+			</div>
+		</div>
+		<img class="w-100" th:src="@{${news.mainImg}}">
+		<!--新闻正文-->
+		<div  class="mt-3" >
+			<p th:text="${news.detail}" class="m-0"></p>
+		</div>
+		<!--新闻底部-->
+		<div class="mt-3">
+			<!--时间-->
+			<div class="" style="color: var(--bs-gray-700)">
+				<div>
+					创建时间：<span th:text="${#dates.format(news.crTime,'yyyy-MM-dd')}"></span>
+				</div>
+				<div class="mt-1">
+					更新时间：<span th:text="${#dates.format(news.upTime,'yyyy-MM-dd')}"></span>
+				</div>
+			</div>
+			<div class="mt-1">
+				新闻来源：<span th:text="${news.source}"></span>
+			</div>
+		</div>
+	</article>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

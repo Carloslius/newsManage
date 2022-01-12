@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:insert="common :: #commonCSSUser"></div>
+    <meta content="" name="description">
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <title>新闻</title>
+</head>
+
+<body  style="background-color: var(--bs-gray-200);">
+    <div th:insert="common :: #commonTop"></div>
+
+    <main class="container">
+        <a th:each="news:${newsList}" th:href="|/showNewsDetail?id=${news.id}|" class="news-link text-decoration-none text-dark">
+            <div class="news w-100 mt-1 p-1 d-flex justify-content-between align-items-center">
+                <div class="info d-flex flex-column">
+                    <div th:text="${news.title}" class="title">1</div>
+                    <div class="news-data d-flex justify-content-between align-items-center">
+                        <div th:if="${news.top} eq 1" class="top">
+                            <span>置顶</span>
+                        </div>
+                        <div class="news-view">
+                            <span class="iconfont icon-view"></span>
+                            <span th:text="${news.view}"></span>次
+                        </div>
+                        <div th:text="${#dates.format(news.upTime,'yyyy-MM-dd')}" class="news-date"></div>
+                    </div>
+                </div>
+                <img th:src="@{${news.mainImg}}" class="news-img"/>
+            </div>
+        </a>
+
+    </main>
+
+
+    <script crossorigin="anonymous" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
